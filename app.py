@@ -34,7 +34,7 @@ matplotlib.use('Agg')
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "https://bam-sentiment-analysis-5qqlcdouj-imaneiks-projects.vercel.app"}})
 
 # Load the trained model and vectorizer
 with open('model.pkl', 'rb') as model_file:
