@@ -1,4 +1,6 @@
 import re
+
+import nltk
 import numpy as np
 import matplotlib
 from flask import Flask, request, jsonify, send_file, make_response
@@ -20,8 +22,17 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate
 
-
 nlp = spacy.load('fr_core_news_sm')
+
+
+def download_nltk_resources():
+    try:
+        nltk.data.find('corpora/stopwords')
+    except LookupError:
+        nltk.download('stopwords')
+
+
+download_nltk_resources()
 matplotlib.use('Agg')
 
 app = Flask(__name__)
@@ -149,7 +160,7 @@ def analyze():
         prediction = model.predict(vect_section)[0]
         # Ensure the prediction is a standard Python type
         prediction = sentiment = sentiment_labels[int(prediction)] if isinstance(prediction, np.integer) else \
-        sentiment_labels[prediction]
+            sentiment_labels[prediction]
         results.append({'section': section, 'sentiment': sentiment})
 
     return jsonify(results)
@@ -301,8 +312,10 @@ def export():
         # Create the CSV file in memory
         output = io.StringIO()
         csv_writer = csv.writer(output)
-        csv_writer.writerow(['Title', 'Article', 'Publication Date', 'prediction', 'percentage', 'named entities', 'common words'])
-        csv_writer.writerow([title, input_article, publication_date, prediction, percentage, named_entities1, common_words1])
+        csv_writer.writerow(
+            ['Title', 'Article', 'Publication Date', 'prediction', 'percentage', 'named entities', 'common words'])
+        csv_writer.writerow(
+            [title, input_article, publication_date, prediction, percentage, named_entities1, common_words1])
         csv_data = output.getvalue()
 
         response = make_response(csv_data)
@@ -379,6 +392,5 @@ def export_pdf():
         print(e)
         return make_response(jsonify({"error": str(e)}), 500)
 
-
-#if __name__ == '__main__':
+# if __name__ == '__main__':
 #    app.run(debug=True)
