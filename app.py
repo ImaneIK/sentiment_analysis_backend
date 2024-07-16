@@ -25,14 +25,19 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate
 nlp = spacy.load('fr_core_news_sm')
 
 
-def download_nltk_resources():
+def download_resources():
     try:
         nltk.data.find('corpora/stopwords')
     except LookupError:
         nltk.download('stopwords')
 
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
 
-download_nltk_resources()
+
+download_resources()
 matplotlib.use('Agg')
 
 app = Flask(__name__)
