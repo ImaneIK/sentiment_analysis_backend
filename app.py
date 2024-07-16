@@ -28,13 +28,12 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate
 from reportlab.lib.units import inch
 from PIL import Image
 
-nltk.download('vader_lexicon')
 nlp = spacy.load('fr_core_news_sm')
 matplotlib.use('Agg')
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "https://bam-sentiment-analysis-5qqlcdouj-imaneiks-projects.vercel.app"}})
+CORS(app, resources={r"/*": {"origins": "https://bam-sentiment-analysis.vercel.app/"}})
 
 # Load the trained model and vectorizer
 with open('model.pkl', 'rb') as model_file:
