@@ -9,31 +9,24 @@ import spacy
 from nltk import word_tokenize, PorterStemmer, sent_tokenize
 from nltk.corpus import stopwords
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import nltk
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from unidecode import unidecode
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from textstat.textstat import textstat
-import pandas as pd
-from datetime import datetime
-import os
 import io
 import csv
 from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate
-from reportlab.lib.units import inch
-from PIL import Image
+
 
 nlp = spacy.load('fr_core_news_sm')
 matplotlib.use('Agg')
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "https://bam-sentiment-analysis.vercel.app/"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load the trained model and vectorizer
 with open('model.pkl', 'rb') as model_file:
