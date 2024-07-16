@@ -36,6 +36,13 @@ def download_resources():
     except LookupError:
         nltk.download('punkt')
 
+    try:
+        nltk.data.find('sentiment/vader_lexicon')
+    except LookupError:
+        nltk.download('vader_lexicon')
+
+
+
 
 download_resources()
 matplotlib.use('Agg')
